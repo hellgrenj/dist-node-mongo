@@ -13,6 +13,10 @@ if (!which('docker')) {
     echo('make sure you have docker 1.12.5 or greater installed and in your PATH');
     exit(1);
 }
+if (!which('docker-compose')) {
+    echo('make sure you have docker-compose 1.9.0 or greater installed and in your PATH');
+    exit(1);
+}
 
 const mounted_data_base_path = `${__dirname}/data/`;
 rm('-rf', mounted_data_base_path);
