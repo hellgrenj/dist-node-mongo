@@ -1,0 +1,16 @@
+{
+  "name": "appsrv",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "Johan Hellgren <hellgrenj@gmail.com> (johanhellgren.se)",
+  "license": "MIT",
+  "dependencies": {
+    "express": "4.14.0",
+    "mongodb": "2.2.19"
+  }
+}

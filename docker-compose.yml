@@ -1,0 +1,31 @@
+version: '2'
+services:
+  appsrv1:
+    network_mode: "bridge"
+    build: ./appsrv
+    environment:
+      - APPSRV_PORT=3000
+    ports:
+      - "3000:3000"
+    external_links:
+        - mongos
+  appsrv2:
+    network_mode: "bridge"
+    build: ./appsrv
+    environment:
+      - APPSRV_PORT=3001
+    ports:
+      - "3001:3001"
+    external_links:
+        - mongos
+  proxy:
+    network_mode: "bridge"
+    build: ./lb
+    depends_on:
+       - appsrv1
+       - appsrv2
+    links:
+       - appsrv1
+       - appsrv2
+    ports:
+      - "80:80"
