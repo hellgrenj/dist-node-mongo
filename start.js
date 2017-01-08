@@ -1,5 +1,6 @@
 require('shelljs/global');
 const timer = require('setcountdown');
+
 const mongoDbShardUpAndRunning = (exec('node ./setup-shard-cluster.js').code === 0);
 if (mongoDbShardUpAndRunning) {
     echo('STARTING UP HAPROXY NODE.JS SYSTEM');
