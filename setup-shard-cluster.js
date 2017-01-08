@@ -1,6 +1,6 @@
 require('shelljs/global');
-const rs = require('./mongo-shard-init/replica-set');
-const cfg = require('./mongo-shard-init/configuration-server');
+const replicaSet = require('./mongo-shard-init/replica-set');
+const configurationServer = require('./mongo-shard-init/configuration-server');
 const mongos = require('./mongo-shard-init/mongos');
 
 echo('\u001B[2J\u001B[0;0f');
@@ -18,14 +18,30 @@ if (!which('docker-compose')) {
     exit(1);
 }
 
-const mounted_data_base_path = `${__dirname}/data/`;
-rm('-rf', mounted_data_base_path);
-rs.standUpNewRS(mounted_data_base_path, 'rs1', 'rs1_srv', '2', (err, rs1_container_ips) => {
-    rs.standUpNewRS(mounted_data_base_path, 'rs2', 'rs2_srv', '3', (err, rs2_container_ips) => {
-        cfg.spinUpSomeConfigServers(mounted_data_base_path, (err, cfg_container_ips) => {
-            mongos.startRouter(rs1_container_ips, rs2_container_ips, cfg_container_ips, () => {
-                echo('mongodb shard cluster up and running');
-            });
+const basePathMountedDataFolder = `${__dirname}/data/`;
+rm('-rf', basePathMountedDataFolder);
+replicaSet.start({
+    basePathMountedDataFolder,
+    name: 'rs1',
+    nodePrefix: 'rs1_srv',
+    initPort: '2',
+    cb: (rs1_container_ips) => {
+
+        replicaSet.start({
+            basePathMountedDataFolder,
+            name: 'rs2',
+            nodePrefix: 'rs2_srv',
+            initPort: '3',
+            cb: (rs2_container_ips) => {
+
+                configurationServer.startMultiple(basePathMountedDataFolder, (cfg_container_ips) => {
+
+                    mongos.startAndInit(rs1_container_ips, rs2_container_ips, cfg_container_ips, () => {
+
+                        echo('mongodb shard cluster up and running');
+                    });
+                });
+            }
         });
-    });
+    }
 });

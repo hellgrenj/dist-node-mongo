@@ -1,7 +1,7 @@
 require('shelljs/global');
 const timer = require('setcountdown');
-const step1ExitCode = exec('node ./setup-shard-cluster.js').code;
-if (step1ExitCode === 0) {
+const mongoDbShardUpAndRunning = (exec('node ./setup-shard-cluster.js').code === 0);
+if (mongoDbShardUpAndRunning) {
     echo('STARTING UP HAPROXY NODE.JS SYSTEM');
     timer.setCountdown(() => {
         exec('docker-compose up --build --force-recreate');

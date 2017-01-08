@@ -1,6 +1,6 @@
 const timer = require('setcountdown');
 exports = module.exports = {
-    startRouter: (rs1_container_ips, rs2_container_ips, cfg_container_ips, cb) => {
+    startAndInit: (rs1_container_ips, rs2_container_ips, cfg_container_ips, cb) => {
         exec('docker stop mongos', {
             silent: true
         });
@@ -28,7 +28,7 @@ exports = module.exports = {
             });
             exec(`mongo --port 3344 --eval "sh.addShard('rs1/${rs1_container_ips[0]}:27017'); sh.addShard('rs2/${rs2_container_ips[0]}:27017'); sh.status();"`);
             timer.setCountdown(() => {
-                return cb(null, 'success');
+                return cb('success');
             }, 4000, '///');
         }, 30000, '*');
     }
