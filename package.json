@@ -9,6 +9,7 @@
   "author": "Johan Hellgren <hellgrenj@gmail.com> (johanhellgren.se)",
   "license": "MIT",
   "dependencies": {
+    "hulken": "^1.2.1",
     "setcountdown": "0.1.0",
     "shelljs": "0.7.5"
   }

@@ -21,10 +21,15 @@ app.get('/read', (req, res) => {
         }
     });
 });
-
+function getRandomInt(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min)) + min;
+}
 app.get('/write', (req, res) => {
     mongo.dbConnection.collection('mycollection').insertOne({
-        myobjectprop: 'myobjectpropvalue'
+        myobjectprop: 'myobjectpropvalue',
+        someRandomNumber: getRandomInt(0, 10)
     }, function(insertError, records) {
         if (insertError) {
             console.log(insertError);

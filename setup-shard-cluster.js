@@ -38,6 +38,7 @@ replicaSet.start({
 
                     mongos.startAndInit(rs1_container_ips, rs2_container_ips, cfg_container_ips, () => {
 
+                        
                         echo('mongodb shard cluster up and running');
                     });
                 });

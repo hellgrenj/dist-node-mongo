@@ -40,8 +40,14 @@ when all is up and running (when you see docker-compose running two **appsrv** i
 you should also see partitioned=false.<br>
 7) run `sh.enableSharding("mydb")` and repeat step 6 (partitioned=true now)<br>
 8) look at the code, laugh at my mistakes, use this environment to learn something new and share it with me! =)
+TODO
+add steps for
+sh.shardCollection("mydb.mycollection", { någotRangeVärde: 1 } ) //läs på om vad som är bra shard nycklar.. range och hashed? är de de typerna som finns?
+also try with hashed?
+how to verify sharding.. did only see data ending up in rs1 (primary and secondary so replication works)
+hulken scripts that hammers the front end (HAProxy) =)
 
-
+öka wait time innan rs initiate...
 
 ### License
 
