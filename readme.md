@@ -12,8 +12,8 @@ An environment for learning and experimenting with:
 Installed on your computer (docker host):
 
 - node.js 6.9.x (or greater)
-- docker 17.03.0-ce (or greater)
-- docker-compose 1.11.2 (or greater)
+- docker 1.13.1 (or greater)
+- docker-compose 1.11.1 (or greater)
 - mongo 3.2 (specific version important)
 
 ## install
@@ -44,6 +44,12 @@ run `node smash.js` (this will smash the poor node.js demo system with 1000 requ
   - run `mongo --port 20017` to connect to replica set 1's PRIMARY
   - run `mongo --port 21017` to connect to replica set 1's first SECONDARY (the second one is at port 22017 and Replica set 2 is at 30017, 31017 and 32017)
   - on secondary's you will need to run `rs.slaveOk()` before you can read mycollection from the command line. (`use mydb` then `db.mycollection.find().pretty()`)
+
+## caveats
+I have only tested this configuration of the env on a MBP (15-inch, 2016) 2,7 GHz i7, 16 GB RAM and a MBP (Retina, 13-inch, Early 2015) 3,1 GHz, 16 GB RAM.  
+If you are running this on a less beefy machine and things are breaking I would try:
+* tweaking the pace hulken sends write requests
+* tweaking the waitTimes in the shard-cluster-automation (see timer.setCountdown in mongo-shard-init/replica-set.js for example)
 
 
 ### License

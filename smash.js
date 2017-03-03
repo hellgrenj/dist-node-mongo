@@ -9,6 +9,9 @@ const myArrayOfRequests = [{
 const hulken_options = {
   targetUrl: 'http://localhost',
   requestsArray: JSON.stringify(myArrayOfRequests),
+  minWaitTime: 1000,
+  maxWaitTime: 10000,
+  happyTimeLimit: 20000,
   timesToRunEachRequest: 1000,
   printLoadDistribution: true
 };
