@@ -48,6 +48,7 @@ run `node smash.js` (this will smash the poor node.js demo system with 1000 requ
 ## caveats
 I have only tested this configuration of the env on a MBP (15-inch, 2016) 2,7 GHz i7, 16 GB RAM and a MBP (Retina, 13-inch, Early 2015) 3,1 GHz, 16 GB RAM.  
 If you are running this on a less beefy machine and things are breaking I would try:
+* adjusting the computing resources dedicated to Docker
 * tweaking the pace hulken sends write requests
 * tweaking the waitTimes in the shard-cluster-automation (see timer.setCountdown in mongo-shard-init/replica-set.js for example)
 
