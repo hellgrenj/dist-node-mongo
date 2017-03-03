@@ -28,7 +28,7 @@ Installed on your computer (docker host):
 1) run `(sudo) node start.js` preferably while listening to https://open.spotify.com/track/2H4zwjbv0D0ggDhf0E8j8j     
 <br/>
 **this script will:**
-* Spin up a mongodb sharded cluster consisting of 1 mongos, 3 config servers, 2 replica set with 1 primary and two secondary in each.
+* Spin up a mongodb sharded cluster consisting of 1 mongos, 3 config servers, 2 replica set with 1 primary and two secondary nodes in each.
 * Then enable sharding on 'mydb' and shard 'mycollection'.  
 * Then it will start a small node.js demo system (2 node services and 1 HAProxy load balancing between them)
 
@@ -36,14 +36,14 @@ Installed on your computer (docker host):
 
 when all is up and running (when you see docker-compose running two **appsrv** instances and a **proxy** instance):
 * Navigate to dist-node-mongo (root) folder in a new terminal window/tab and   
-run `node smash.js` (this will smash the poor node.js demo system with 1000 request to *localhost/write*)
+run `node smash.js` (this will smash the poor node.js demo system with 1000 requests to *localhost/write*)
 * In a new terminal window/tab connect to the mongos router: `mongo --port 3344`
 * switch to mydb `use mydb`
 * inspect the shard distribution on mycollection with `db.mycollection.getShardDistribution()`
 * in a new terminal window/tab inspect the data in one replica set, first the primary and then a secondary:
   - run `mongo --port 20017` to connect to replica set 1's PRIMARY
   - run `mongo --port 21017` to connect to replica set 1's first SECONDARY (the second one is at port 22017 and Replica set 2 is at 30017, 31017 and 32017)
-  - on secondary's you will need to run `rs.slaveOk()` before you can read mycollection from the command line. (`use mydb` then `db.mycollection.find().pretty()`)
+  - on secondary nodes you will need to run `rs.slaveOk()` before you can read mycollection from the command line. (`use mydb` then `db.mycollection.find().pretty()` or `db.mycollection.count()` to just get the count)
 
 ## caveats
 I have only tested this configuration of the env on a MBP (15-inch, 2016) 2,7 GHz i7, 16 GB RAM and a MBP (Retina, 13-inch, Early 2015) 3,1 GHz, 16 GB RAM.  
