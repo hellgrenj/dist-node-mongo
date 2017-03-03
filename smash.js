@@ -11,7 +11,7 @@ const hulken_options = {
   requestsArray: JSON.stringify(myArrayOfRequests),
   minWaitTime: 1000,
   maxWaitTime: 10000,
-  happyTimeLimit: 20000,
+  happyTimeLimit: 20,
   timesToRunEachRequest: 1000,
   printLoadDistribution: true
 };
