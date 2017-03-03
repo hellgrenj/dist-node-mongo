@@ -2,7 +2,7 @@
 
 An environment for learning and experimenting with:
 
-- sharding in MongoDB
+- sharding and replication in MongoDB
 - load balancing with HAProxy and Node.js
 
 .... all within Docker containers.
