@@ -28,7 +28,7 @@ Installed on your computer (docker host):
 1) run `(sudo) node start.js` preferably while listening to https://open.spotify.com/track/2H4zwjbv0D0ggDhf0E8j8j     
 <br/>
 **this script will:**
-* Spin up a mongodb shard cluster consisting of 1 mongos, 3 config servers, 2 replica set with 1 primary and two secondary in each.
+* Spin up a mongodb sharded cluster consisting of 1 mongos, 3 config servers, 2 replica set with 1 primary and two secondary in each.
 * Then enable sharding on 'mydb' and shard 'mycollection'.  
 * Then it will start a small node.js demo system (2 node services and 1 HAProxy load balancing between them)
 

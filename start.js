@@ -8,5 +8,5 @@ if (mongoDbShardUpAndRunning) {
         exec('docker-compose up --build --force-recreate');
     }, 10000, '///');
 } else {
-    console.log('failed to setup mongodb shard cluster');
+    console.log('failed to setup mongodb sharded cluster');
 }
