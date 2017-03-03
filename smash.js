@@ -9,7 +9,8 @@ const myArrayOfRequests = [{
 const hulken_options = {
   targetUrl: 'http://localhost',
   requestsArray: JSON.stringify(myArrayOfRequests),
-  timesToRunEachRequest: 3000
+  timesToRunEachRequest: 1000,
+  printLoadDistribution: true
 };
 
 hulken.run((stats) => {

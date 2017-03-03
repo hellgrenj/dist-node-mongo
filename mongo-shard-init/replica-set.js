@@ -1,14 +1,17 @@
 const timer = require('setcountdown');
 exports = module.exports = {
+    cleanUpSync: (nodePrefix) => {
+      for (let i = 0; i < 3; i++) {
+          exec(`docker stop ${nodePrefix}${i}`, {
+              silent: true
+          });
+          exec(`docker rm -fv ${nodePrefix}${i}`, {
+              silent: true
+          });
+      }
+    },
     start: ({basePathMountedDataFolder,name,nodePrefix,initPort,cb} = {}) => {
-        // spin up nodes
         for (let i = 0; i < 3; i++) {
-            exec(`docker stop ${nodePrefix}${i}`, {
-                silent: true
-            });
-            exec(`docker rm ${nodePrefix}${i}`, {
-                silent: true
-            });
             echo(`starting mongod node ${nodePrefix}${i} in replica set ${name}`);
             exec(`docker run  -d -v ${basePathMountedDataFolder}${nodePrefix}${i}/db:/data/db -p ${initPort}${i}017:27017 --name ${nodePrefix}${i} gustavocms/mongodb --replSet ${name} `, {
                 silent: true
@@ -16,7 +19,6 @@ exports = module.exports = {
         }
         timer.setCountdown(() => {
             echo(`inspecting container ips`);
-            // wait 20 seconds then inspect ip:s
             let container_ips = [];
             for (let i = 0; i < 3; i++) {
                 const res = JSON.parse(exec(`docker inspect ${nodePrefix}${i}`, {
@@ -25,17 +27,19 @@ exports = module.exports = {
                 const ip = res[0].NetworkSettings.IPAddress;
                 container_ips.push(ip);
             }
-            timer.setCountdown(() => {
-                echo(`initiating replica set ${name}`);
-                // wait 10 seconds then initiate replica set
-                exec(`mongo --port ${initPort}0017 --eval "rs.initiate(); rs.add('${container_ips[1]}:27017'); rs.add('${container_ips[2]}:27017'); rs.status();"`, {
-                    silent: true
-                });
-                exec(`mongo --port ${initPort}0017 --eval "cfg = rs.conf(); cfg.members[0].host = '${container_ips[0]}:27017'; rs.reconfig(cfg); rs.status();"`, {
-                    silent: true
-                });
-                return cb(container_ips);
-            }, 10000, '///');
-        }, 20000, '///');
+            console.log(container_ips);
+            echo(`initiating replica set ${name}`);
+            exec(`mongo --port ${initPort}0017 --eval "rs.initiate();" `, { silent: true });
+            echo(`adding ${container_ips[1]} to replica set ${name}`);
+            exec(`mongo --port ${initPort}0017 --eval "rs.add('${container_ips[1]}:27017'); " `, { silent: true });
+            echo(`adding ${container_ips[2]} to replica set ${name}`);
+            exec(`mongo --port ${initPort}0017 --eval "rs.add('${container_ips[2]}:27017');" `, { silent: true });
+            echo(`reconfiguring replica set (setting host to ${container_ips[0]})`);
+            exec(`mongo --port ${initPort}0017 --eval "cfg = rs.conf({"heartbeatIntervalMillis" : 7000, "heartbeatTimeoutSecs" : 20,
+            "electionTimeoutMillis" : 20000,}); cfg.members[0].host = '${container_ips[0]}:27017'; rs.reconfig(cfg); rs.status();"`, {
+                silent: true
+            });
+            return cb(container_ips);
+        }, 5000, '///');
     }
 };

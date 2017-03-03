@@ -1,14 +1,17 @@
 const timer = require('setcountdown');
 exports = module.exports = {
+    cleanUpSync: () => {
+      for (let i = 0; i < 3; i++) {
+          exec(`docker stop cfg${i}`, {
+              silent: true
+          });
+          exec(`docker rm -fv cfg${i}`, {
+              silent: true
+          });
+      }
+    },
     startMultiple: (basePathMountedDataFolder, cb) => {
-        // create Config servers
         for (let i = 0; i < 3; i++) {
-            exec(`docker stop cfg${i}`, {
-                silent: true
-            });
-            exec(`docker rm cfg${i}`, {
-                silent: true
-            });
             echo(`starting configuration server cfg${i}`);
             exec(`docker run -d -v ${basePathMountedDataFolder}cfg${i}/db:/data/db -P --name cfg${i} gustavocms/mongodb --configsvr --dbpath /data/db`, {
                 silent: true
@@ -25,7 +28,7 @@ exports = module.exports = {
         }
         timer.setCountdown(() => {
             cb(cfg_container_ips);
-        }, 3000, '///');
+        }, 5000, '///');
 
     }
 };

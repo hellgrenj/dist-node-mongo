@@ -12,42 +12,39 @@ An environment for learning and experimenting with:
 Installed on your computer (docker host):
 
 - node.js 6.9.x (or greater)
-- docker 1.12.5 (or greater)
-- docker-compose 1.9.0 (or greater)
-- mongo 3.4 (specific version important)
+- docker 17.03.0-ce (or greater)
+- docker-compose 1.11.2 (or greater)
+- mongo 3.2 (specific version important)
 
 ## install
 
-1) clone this repo (somewhere where docker is allowed to map data volumes)<br>
-2) run `npm install` (in the root folder)
+1) clone this repo (somewhere where docker is allowed to map data volumes)  
+2) run `npm install` (in the root folder)  
+3) run `docker pull gustavocms/mongodb`  
+4) run `docker pull lgatica/mongos`  
 
-## run
+## start
 
-1) run `(sudo) node start.js` preferably while listening to https://open.spotify.com/track/2H4zwjbv0D0ggDhf0E8j8j <br>
-(this script will spin up a mongodb shard cluster and then start a small load balanced node.js system)<br>
-**yeah.. and this will take a minute (especially the first time around when docker pulls down some images) <br/> so don't worry if the first node in the first replica set takes some time to start...**
+1) run `(sudo) node start.js` preferably while listening to https://open.spotify.com/track/2H4zwjbv0D0ggDhf0E8j8j     
+<br/>
+**this script will:**
+* Spin up a mongodb shard cluster consisting of 1 mongos, 3 config servers, 2 replica set with 1 primary and two secondary in each.
+* Then enable sharding on 'mydb' and shard 'mycollection'.  
+* Then it will start a small node.js demo system (2 node services and 1 HA-Proxy load balancing between them)
 
-## verify
+## play around
 
-when all is up and running (when you see docker-compose running two **appsrv** instances and a **proxy** instance):<br>
-<br>
-1) connect to the mongos router mapped to your local port 3344 `mongo --port 3344`<br>
-2) run `use admin` and then `db.runCommand( { listShards : 1 } )` (you should now see a list of shards, two replica sets)<br>
-3) browse to localhost/write (you should receive "write succeeded")<br>
-4) browse to localhost/read (you should receive a dummy document)<br>
-5) connect again to the mongos router mapped to your local port 3344 `mongo --port 3344`<br>
-6) run `use config` and then `db.databases.find()`, you should now see a "mydb" in a list of databases.<br>
-you should also see partitioned=false.<br>
-7) run `sh.enableSharding("mydb")` and repeat step 6 (partitioned=true now)<br>
-8) look at the code, laugh at my mistakes, use this environment to learn something new and share it with me! =)
-TODO
-add steps for
-sh.shardCollection("mydb.mycollection", { någotRangeVärde: 1 } ) //läs på om vad som är bra shard nycklar.. range och hashed? är de de typerna som finns?
-also try with hashed?
-how to verify sharding.. did only see data ending up in rs1 (primary and secondary so replication works)
-hulken scripts that hammers the front end (HAProxy) =)
+when all is up and running (when you see docker-compose running two **appsrv** instances and a **proxy** instance):
+* Navigate to dist-node-mongo (root) folder in a new terminal window/tab and   
+run `node smash.js` (this will smash the poor node.js demo system with 1000 request to *localhost/write*)
+* In a new terminal window/tab connect to the mongos router: `mongo --port 3344`
+* switch to mydb `use mydb`
+* inspect the shard distribution on mycollection with `db.mycollection.getShardDistribution()`
+* in a new terminal window/tab inspect the data in one replica set, first the primary and then a secondary:
+  - run `mongo --port 20017` to connect to replica set 1's PRIMARY
+  - run `mongo --port 21017` to connect to replica set 1's first SECONDARY (the second one is at port 22017 and Replica set 2 is at 30017, 31017 and 32017)
+  - on secondary's you will need to run `rs.slaveOk()` before you can read mycollection from the command line. (`use mydb` then `db.mycollection.find().pretty()`)
 
-öka wait time innan rs initiate...
 
 ### License
 
