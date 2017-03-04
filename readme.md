@@ -32,7 +32,7 @@ Installed on your computer (docker host):
 * Then enable sharding on 'mydb' and shard 'mycollection'.  
 * Then it will start a small node.js demo system (2 services and 1 HAProxy load balancing between them)
 
-(if you only want to spin up the sharded cluster and not the demo system run `node setup-shard-cluster`)
+(if you only want to spin up the sharded cluster and not the demo system run `node setup-shard-cluster.js`)
 
 ## play around
 
