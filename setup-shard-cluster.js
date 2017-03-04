@@ -4,7 +4,7 @@ const configurationServer = require('./mongo-shard-init/configuration-server');
 const mongos = require('./mongo-shard-init/mongos');
 
 echo('\u001B[2J\u001B[0;0f');
-echo('\nSPINNING UP NEW MONGODB SHARD CLUSTER\n');
+echo('\nSPINNING UP NEW MONGODB SHARDED CLUSTER\n');
 if (!which('mongo')) {
   echo('make sure you have mongo 3.2 installed and in your PATH');
   exit(1);
@@ -47,7 +47,7 @@ replicaSet.start({
             exec('mongo --port 3344 --eval "sh.enableSharding(\'mydb\');"');
             echo('sharding mycollection with shardkey { someRandomNumber: 1 }');
             exec('mongo --port 3344 --eval "sh.shardCollection(\'mydb.mycollection\', { someRandomNumber: 1 } ); "');
-            echo('mongodb shard cluster up and running');
+            echo('mongodb sharded cluster up and running');
 
           });
         });

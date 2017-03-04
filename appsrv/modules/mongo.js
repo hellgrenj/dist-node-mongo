@@ -28,7 +28,7 @@ function tryConnectToMongo(finished, attempt = 0) {
       }
     } else {
       mongo.dbConnection = db;
-      mongo.dbConnection.collection('mycollection').ensureIndex('someRandomNumber', function (err, name) {
+      mongo.dbConnection.collection('mycollection').createIndex('someRandomNumber', function (err, name) {
         if (err) {
           console.log('ensuring index: ' + name + ' resulted in error: ' +
             err);
