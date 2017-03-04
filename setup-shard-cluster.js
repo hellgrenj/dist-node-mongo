@@ -23,24 +23,24 @@ configurationServer.cleanUpSync();
 mongos.cleanUpSync();
 replicaSet.cleanUpSync('rs1_srv');
 replicaSet.cleanUpSync('rs2_srv');
-const basePathMountedDataFolder = `${__dirname}/data/`;
-rm('-rf', basePathMountedDataFolder);
+const mountedDataFolder = `${__dirname}/data/`;
+rm('-rf', mountedDataFolder);
 
 replicaSet.start({
-  basePathMountedDataFolder,
+  mountedDataFolder,
   name: 'rs1',
   nodePrefix: 'rs1_srv',
   initPort: '2',
   cb: (rs1_container_ips) => {
 
     replicaSet.start({
-      basePathMountedDataFolder,
+      mountedDataFolder,
       name: 'rs2',
       nodePrefix: 'rs2_srv',
       initPort: '3',
       cb: (rs2_container_ips) => {
 
-        configurationServer.startMultiple(basePathMountedDataFolder, (cfg_container_ips) => {
+        configurationServer.startMultiple(mountedDataFolder, (cfg_container_ips) => {
 
           mongos.startAndInit(rs1_container_ips, rs2_container_ips, cfg_container_ips, () => {
             echo('enabling sharding for mydb');

@@ -14,7 +14,7 @@ Installed on your computer (docker host):
 - node.js 6.9.x (or greater)
 - docker 1.13.1 (or greater)
 - docker-compose 1.11.1 (or greater)
-- mongo 3.2 (specific version important)
+- mongo 3.2 (recommended, seems to work with 3.4 but with version mismatch warning)
 
 ## install
 
@@ -31,6 +31,8 @@ Installed on your computer (docker host):
 * Spin up a mongodb shard cluster consisting of 1 mongos, 3 config servers, 2 replica set with 1 primary and two secondary in each.
 * Then enable sharding on 'mydb' and shard 'mycollection'.  
 * Then it will start a small node.js demo system (2 node services and 1 HAProxy load balancing between them)
+
+(if you only want to spin up the sharded cluster and not the demo system run `node setup-shard-cluster`)
 
 ## play around
 

@@ -10,10 +10,10 @@ exports = module.exports = {
           });
       }
     },
-    start: ({basePathMountedDataFolder,name,nodePrefix,initPort,cb} = {}) => {
+    start: ({mountedDataFolder,name,nodePrefix,initPort,cb} = {}) => {
         for (let i = 0; i < 3; i++) {
             echo(`starting mongod node ${nodePrefix}${i} in replica set ${name}`);
-            exec(`docker run  -d -v ${basePathMountedDataFolder}${nodePrefix}${i}/db:/data/db -p ${initPort}${i}017:27017 --name ${nodePrefix}${i} gustavocms/mongodb --replSet ${name} `, {
+            exec(`docker run  -d -v ${mountedDataFolder}${nodePrefix}${i}/db:/data/db -p ${initPort}${i}017:27017 --name ${nodePrefix}${i} gustavocms/mongodb --replSet ${name} `, {
                 silent: true
             });
         }

@@ -10,10 +10,10 @@ exports = module.exports = {
           });
       }
     },
-    startMultiple: (basePathMountedDataFolder, cb) => {
+    startMultiple: (mountedDataFolder, cb) => {
         for (let i = 0; i < 3; i++) {
             echo(`starting configuration server cfg${i}`);
-            exec(`docker run -d -v ${basePathMountedDataFolder}cfg${i}/db:/data/db -P --name cfg${i} gustavocms/mongodb --configsvr --dbpath /data/db`, {
+            exec(`docker run -d -v ${mountedDataFolder}cfg${i}/db:/data/db -P --name cfg${i} gustavocms/mongodb --configsvr --dbpath /data/db`, {
                 silent: true
             });
         }
