@@ -7,6 +7,9 @@ An environment for learning and experimenting with:
 
 .... all within Docker containers.
 
+## blog post
+[An environment for experimenting with sharding and replication in MongoDB](http://hellgrenj.tumblr.com/post/158015640353/an-environment-for-experimenting-with-sharding-and)
+
 ## prerequisites
 
 Installed on your computer (docker host):
