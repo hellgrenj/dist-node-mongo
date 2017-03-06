@@ -29,7 +29,7 @@ function getRandomInt(min, max) {
 app.get('/write', (req, res) => {
     mongo.dbConnection.collection('mycollection').insertOne({
         myobjectprop: 'myobjectpropvalue',
-        someRandomNumber: getRandomInt(0, 10)
+        someRandomNumber: getRandomInt(0, 100)
     }, function(insertError, records) {
         if (insertError) {
             console.log(insertError);
