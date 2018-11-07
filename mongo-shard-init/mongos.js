@@ -14,7 +14,7 @@ exports = module.exports = {
         cfg_container_ips.map((ip) => {
             echo(ip);
         });
-        exec(`docker run -p 3344:27017 --name mongos -d lgatica/mongos --port 27017 --configdb ${cfg_container_ips[0]}:27019,${cfg_container_ips[1]}:27019,${cfg_container_ips[2]}:27019`, {
+        exec(`docker run -p 3344:27017 --name mongos -d lgatica/mongos:1.0.0 --port 27017 --configdb ${cfg_container_ips[0]}:27019,${cfg_container_ips[1]}:27019,${cfg_container_ips[2]}:27019`, {
             silent: true
         });
 

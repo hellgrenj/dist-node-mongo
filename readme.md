@@ -24,7 +24,7 @@ Installed on your computer (docker host):
 1) clone this repo (somewhere where docker is allowed to map data volumes)  
 2) run `npm install` (in the root folder)  
 3) run `docker pull gustavocms/mongodb`  
-4) run `docker pull lgatica/mongos`  
+4) run `docker pull lgatica/mongos:1.0.0`  
 
 ## start
 
