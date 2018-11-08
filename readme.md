@@ -7,6 +7,8 @@ An environment for learning and experimenting with:
 
 .... all within Docker containers.
 
+**i have only worked with this environment on a mac and linux, tweaks may be required to get it working on windows..**  
+
 ## blog post
 [An environment for experimenting with sharding and replication in MongoDB](http://hellgrenj.tumblr.com/post/158015640353/an-environment-for-experimenting-with-sharding-and)
 
@@ -19,7 +21,6 @@ Installed on your computer (docker host):
 - docker-compose 1.11.1 (or greater)
 - mongo 3.2 (recommended, seems to work with 3.4 but with version mismatch warning) (and yeah.. i know.. locally on the host machine. If i ever get back to working on this i will put the mongo client in a container as well..)
 
-(i have only worked with this environment on a mac and linux, tweaks may be required to get it working on windows..)  
 
 ## install
 
