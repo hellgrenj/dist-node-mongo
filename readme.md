@@ -19,6 +19,8 @@ Installed on your computer (docker host):
 - docker-compose 1.11.1 (or greater)
 - mongo 3.2 (recommended, seems to work with 3.4 but with version mismatch warning)
 
+(i have only worked with this environment on a mac and linux, tweaks may be required to get it working on windows..)  
+
 ## install
 
 1) clone this repo (somewhere where docker is allowed to map data volumes)  
